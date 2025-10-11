@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript入門：Webページに動きを追加する</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+        }
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f8f8f8;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JavaScript入門：Webページに動きを追加する</h1>
+
+        <h2>概要</h2>
+        
+        <h3>Webページを構成する3つの技術</h3>
+        <p>これまでの学習で、Webページを作るための基本的な技術を学んできました。ここで、それらの役割を整理しましょう：</p>
+        
+        <ul>
+            <li><strong>HTML：</strong> Webページの<strong>内容と構造</strong>を定義
+                <ul>
+                    <li>見出し、段落、リスト、画像などの配置</li>
+                    <li>文書の意味付け</li>
+                </ul>
+            </li>
+            <li><strong>CSS（スタイルシート）：</strong> Webページの<strong>見た目</strong>を制御
+                <ul>
+                    <li>色、太さ、間隔、位置、配置</li>
+                    <li>フォントやレイアウト</li>
+                </ul>
+            </li>
+            <li><strong>JavaScript（スクリプト）：</strong> Webページに<strong>動きや変化</strong>を追加
+                <ul>
+                    <li>ボタンをクリックした時の動作</li>
+                    <li>時間経過による表示の変化</li>
+                    <li>ユーザーの入力に応じた処理</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>JavaScriptでできること</h3>
+        <p>JavaScriptを使うと、静的（変化しない）だったWebページに、以下のような機能を追加できます：</p>
+        
+        <ul>
+            <li><strong>動く時計：</strong> 現在時刻を表示し、1秒ごとに更新</li>
+            <li><strong>画像のスライドショー：</strong> 自動的に画像が切り替わる</li>
+            <li><strong>メニューの開閉：</strong> クリックするとメニューが表示・非表示</li>
+            <li><strong>フォームの入力チェック：</strong> 送信前に入力内容を確認</li>
+            <li><strong>計算機能：</strong> ボタンをクリックして計算結果を表示</li>
+        </ul>
+
+        <h3>今回の目標</h3>
+        <p>この課題では、以下を学習します：</p>
+        <ol>
+            <li>JavaScriptとは何かを理解する</li>
+            <li>JavaScriptの基本的な書き方を学ぶ</li>
+            <li>自分のWebページに「動く時計」を追加する</li>
+            <li>クライアント側（ブラウザ）でスクリプトが動作することを確認する</li>
+        </ol>
+
+        <hr>
+
+        <h2>JavaScriptとは？</h2>
+
+        <h3>JavaScriptの基本情報</h3>
+        <p>JavaScript（ジャバスクリプト）は、Webページに動的な機能を追加するためのプログラミング言語です。</p>
+
+        <h4>主な特徴</h4>
+        <ul>
+            <li><strong>ブラウザ上で動作：</strong> サーバーではなく、利用者のブラウザ（クライアント側）で実行される</li>
+            <li><strong>HTMLと組み合わせて使用：</strong> HTMLファイルの中に直接書くことができる</li>
+            <li><strong>学習しやすい：</strong> 比較的シンプルな文法で、初心者でも始めやすい</li>
+            <li><strong>即座に結果が見える：</strong> ブラウザで開くとすぐに動作を確認できる</li>
+        </ul>
+
+        <h3>JavaScriptとJavaの違い</h3>
+        <p><strong>注意：</strong> JavaScriptとJavaは名前が似ていますが、<strong>まったく別の言語</strong>です。</p>
+        
+        <table>
+            <tr>
+                <th>項目</th>
+                <th>JavaScript</th>
+                <th>Java</th>
+            </tr>
+            <tr>
+                <td>用途</td>
+                <td>Webページの動的機能</td>
+                <td>アプリケーション開発全般</td>
+            </tr>
+            <tr>
+                <td>実行環境</td>
+                <td>ブラウザ</td>
+                <td>Java仮想マシン（JVM）</td>
+            </tr>
+            <tr>
+                <td>習得難易度</td>
+                <td>比較的易しい</td>
+                <td>やや難しい</td>
+            </tr>
+        </table>
+
+        <h3>クライアント側とサーバー側</h3>
+        <p>Webの仕組みを理解するために、クライアントとサーバーの役割を確認しましょう：</p>
+
+        <ul>
+            <li><strong>サーバー側：</strong>
+                <ul>
+                    <li>Webページを保管し、要求に応じて送信する</li>
+                    <li>データベースとの連携など</li>
+                    <li>例：PHPやPythonで処理</li>
+                </ul>
+            </li>
+            <li><strong>クライアント側（ブラウザ）：</strong>
+                <ul>
+                    <li>受け取ったHTMLを表示する</li>
+                    <li><strong>JavaScriptを実行する</strong></li>
+                    <li>利用者の操作に応じた動作</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="info">
+            <strong>今回の重要ポイント：</strong> JavaScriptはクライアント側（あなたのブラウザ）で動作します。そのため、サーバーへの負荷がなく、即座に反応する動的な機能を実現できます。
+        </div>
+
+        <h3>JavaScriptの歴史</h3>
+        <ul>
+            <li><strong>1995年：</strong> Netscape社のブレンダン・アイク氏により開発</li>
+            <li><strong>当初の名前：</strong> LiveScript（後にJavaScriptに改名）</li>
+            <li><strong>現在：</strong> すべての主要ブラウザで標準的にサポート</li>
+        </ul>
+
+        <hr>
+
+        <h2>始めてみよう</h2>
+
+        <h3>JavaScriptを書く場所</h3>
+        <p>JavaScriptをHTMLファイルに含める方法は、主に3つあります：</p>
+
+        <h4>方法1：HTMLファイル内に直接書く（&lt;script&gt;タグ内）</h4>
+        <p>最も簡単な方法です。HTMLファイルの&lt;head&gt;タグ内または&lt;body&gt;タグ内に書きます。</p>
+
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;JavaScript練習&lt;/title&gt;
+    &lt;script&gt;
+        // ここにJavaScriptを書く
+        alert('こんにちは！');
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;JavaScriptのテスト&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <h4>方法2：外部ファイルとして作成（推奨）</h4>
+        <p>JavaScriptを別ファイル（.js）として保存し、HTMLから読み込む方法です。</p>
+
+        <p><strong>HTMLファイル（index.html）：</strong></p>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;JavaScript練習&lt;/title&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;JavaScriptのテスト&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <p><strong>JavaScriptファイル（script.js）：</strong></p>
+        <pre>// JavaScriptファイルの内容
+alert('こんにちは！');</pre>
+
+        <h4>方法3：HTML要素の属性に直接書く</h4>
+        <p>ボタンなどのイベント（クリックなど）に直接JavaScriptを書く方法です。</p>
+
+        <pre>&lt;button onclick="alert('クリックされました！')"&gt;クリック&lt;/button&gt;</pre>
+
+        <h3>最初のJavaScriptプログラム</h3>
+        <p>まずは、ブラウザに簡単なメッセージを表示するプログラムを書いてみましょう。</p>
+
+        <h4>例1：アラート（警告ダイアログ）を表示</h4>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;初めてのJavaScript&lt;/title&gt;
+    &lt;script&gt;
+        alert('JavaScript が動作しています！');
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;JavaScriptのテスト&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <p><strong>動作：</strong> ページを開くと、ダイアログボックスが表示されます。</p>
+
+        <h4>例2：コンソールにメッセージを表示</h4>
+        <pre>&lt;script&gt;
+    console.log('コンソールに表示されます');
+&lt;/script&gt;</pre>
+
+        <p><strong>確認方法：</strong> ブラウザの開発者ツール（F12キー）を開き、「Console」タブでメッセージを確認できます。</p>
+
+        <h4>例3：HTML要素の内容を変更</h4>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;内容の変更&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1 id="title"&gt;元のタイトル&lt;/h1&gt;
+    &lt;button onclick="document.getElementById('title').innerHTML = '変更されました！'"&gt;
+        タイトルを変更
+    &lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <p><strong>動作：</strong> ボタンをクリックすると、見出しの文字が変わります。</p>
+
+        <h3>JavaScriptの基本文法</h3>
+
+        <h4>1. コメント（メモ）の書き方</h4>
+        <pre>// 1行コメント（この行は実行されません）
+
+/*
+  複数行コメント
+  このように複数行にわたる
+  コメントを書けます
+*/</pre>
+
+        <h4>2. 文の終わり</h4>
+        <p>JavaScriptでは、文の終わりにセミコロン（;）を付けます。</p>
+        <pre>alert('こんにちは');
+console.log('メッセージ');</pre>
+
+        <h4>3. 大文字と小文字の区別</h4>
+        <p>JavaScriptは大文字と小文字を区別します。</p>
+        <pre>alert('OK');  // 正しい
+Alert('NG');  // エラー（Aが大文字）</pre>
+
+        <h4>4. よく使う命令</h4>
+        <ul>
+            <li><code>alert('メッセージ');</code> - ダイアログを表示</li>
+            <li><code>console.log('メッセージ');</code> - コンソールに出力</li>
+            <li><code>document.getElementById('id名')</code> - HTML要素を取得</li>
+            <li><code>element.innerHTML = '内容';</code> - 要素の中身を変更</li>
+        </ul>
+
+        <h3>デバッグ（エラー確認）の方法</h3>
+        <p>JavaScriptが動作しない時は、以下の手順で確認しましょう：</p>
+
+        <ol>
+            <li><strong>開発者ツールを開く</strong>
+                <ul>
+                    <li>Windowsの場合：F12キーまたはCtrl+Shift+I</li>
+                    <li>Macの場合：Cmd+Option+I</li>
+                </ul>
+            </li>
+            <li><strong>Consoleタブを確認</strong>
+                <ul>
+                    <li>エラーメッセージが赤字で表示されます</li>
+                    <li>エラーが発生した行番号も表示されます</li>
+                </ul>
+            </li>
+            <li><strong>よくあるエラー</strong>
+                <ul>
+                    <li>スペルミス（alertをAlertと書くなど）</li>
+                    <li>セミコロンの付け忘れ</li>
+                    <li>引用符（'または"）の閉じ忘れ</li>
+                </ul>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h2>課題：動く時計を作成</h2>
+
+        <h3>課題内容</h3>
+        <p>自分の入口ページ（index.html）の<strong>先頭</strong>に、現在時刻を表示する「動く時計」を追加してください。</p>
+
+        <h4>要件</h4>
+        <ul>
+            <li>現在の時刻（時：分：秒）を表示すること</li>
+            <li>1秒ごとに時刻が更新されること</li>
+            <li>時計が目立つ場所（ページ先頭）に配置されていること</li>
+            <li>既に作成した内容はそのまま残すこと</li>
+        </ul>
+
+        <h3>実装のヒント</h3>
+
+        <h4>基本的なコード例</h4>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;動く時計&lt;/title&gt;
+    &lt;script&gt;
+        function updateClock() {
+            // 現在時刻を取得
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            
+            // 1桁の場合は0を付ける
+            if (hours &lt; 10) hours = '0' + hours;
+            if (minutes &lt; 10) minutes = '0' + minutes;
+            if (seconds &lt; 10) seconds = '0' + seconds;
+            
+            // 時刻を表示
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('clock').innerHTML = timeString;
+        }
+        
+        // 1秒ごとにupdateClock関数を実行
+        setInterval(updateClock, 1000);
+        
+        // ページ読み込み時に即座に表示
+        window.onload = updateClock;
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;現在時刻&lt;/h1&gt;
+    &lt;div id="clock" style="font-size: 48px; font-weight: bold; color: blue;"&gt;
+        00:00:00
+    &lt;/div&gt;
+    
+    &lt;!-- ここに既存のコンテンツを配置 --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+        <h4>コードの説明</h4>
+        <ul>
+            <li><code>new Date()</code> - 現在の日時を取得</li>
+            <li><code>getHours()</code> - 時を取得（0～23）</li>
+            <li><code>getMinutes()</code> - 分を取得（0～59）</li>
+            <li><code>getSeconds()</code> - 秒を取得（0～59）</li>
+            <li><code>setInterval(関数, ミリ秒)</code> - 指定した間隔で関数を繰り返し実行</li>
+            <li><code>1000ミリ秒 = 1秒</code></li>
+        </ul>
+
+        <h3>カスタマイズのアイデア</h3>
+        <ul>
+            <li>文字の色を変える（style="color: red;"）</li>
+            <li>文字のサイズを変える（font-size: 64px;）</li>
+            <li>枠を付ける（border: 2px solid black;）</li>
+            <li>背景色を付ける（background-color: lightgray;）</li>
+            <li>日付も表示する（年/月/日）</li>
+        </ul>
+
+        <h3>GitHubでの作業手順</h3>
+        <ol>
+            <li>GitHubで自分のリポジトリを開く</li>
+            <li>index.htmlを編集（鉛筆マークをクリック）</li>
+            <li>ページ先頭に時計のコードを追加</li>
+            <li>「Commit changes」で保存</li>
+            <li>GitHub Pagesで表示を確認</li>
+        </ol>
+
+        <h3>提出方法</h3>
+        <ul>
+            <li><strong>提出物：</strong> 動く時計が表示されているページのスクリーンショット（URL欄を含む）</li>
+            <li><strong>提出先：</strong> Moodle上の指定された提出先</li>
+            <li><strong>ファイル形式：</strong> Word文書（.docx形式）</li>
+            <li><strong>提出期限：</strong> 1週間後の授業前日 午前中まで</li>
+            <li><strong>質問方法：</strong> Moodleから随時受付</li>
+        </ul>
+
+        <h3>確認事項</h3>
+        <p>提出前に以下を確認してください：</p>
+        <ul>
+            <li>時計が正しく動作している（1秒ごとに更新される）</li>
+            <li>時刻が正確に表示されている</li>
+            <li>ページの先頭に配置されている</li>
+            <li>既存のコンテンツが残っている</li>
+            <li>スクリーンショットにURLが写っている</li>
+        </ul>
+
+        <hr>
+
+        <h2>参考資料</h2>
+        <ul>
+            <li><a href="https://www.tohoho-web.com/js/start.htm" target="_blank" rel="noopener noreferrer">始めてみよう</a> -「とほほのJavaScriptリファレンス」より</li>
+            <li><a href="https://www.tohoho-web.com/js/what.htm" target="_blank" rel="noopener noreferrer">JavaScriptとは？</a> -「とほほのJavaScriptリファレンス」より</li>
+            <li><a href="https://zenn.dev/ojk/books/intro-to-javascript" target="_blank" rel="noopener noreferrer">文系大学生のためのJavaScript入門</a></li>
+            <li><a href="https://paiza.jp/works/search_courses/2205" target="_blank" rel="noopener noreferrer">「JavaScript」入門講座一覧</a> - paiza.io</li>
+            <li><a href="http://www.openspc2.org/reibun/javascript2" target="_blank" rel="noopener noreferrer">新JavaScript例文辞典</a> - やりたいことから逆引き</li>
+        </ul>
+
+        <hr>
+        <p><small>最終更新：2025年度</small></p>
+    </div>
+</body>
+</html>
